@@ -12,3 +12,7 @@ idea+gradle+springboot+mybatis
     
 # 系统设计
 主要分为三层，分别为：客户层、应用层、数据层
+![此处输入图片的描述][1]
+
+
+  [1]: https://github.com/qinjiaw2019/Software-copyright/blob/master/SmartStation/shortcut/%E6%9E%B6%E6%9E%84%E5%9B%BE.png
