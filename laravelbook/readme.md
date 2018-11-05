@@ -1,27 +1,14 @@
-# Laravel PHP Framework
+## 基于微信的图书借阅伴侣系统##
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+----------
+# 开发语言
+----
+php+laravel+Vue+Element-ui+微信SDK
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
-
-## Official Documentation
-
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+# 项目特点
+项目特点
+# 项目描述
+选用了MVC编程模式中最为经典的PHP+larravel+mysql轻量级的php框架的模式,框架采用功能强大的开源框架laravel，采用B/S架构，网页的设计排版采用了html5语言。数据库后端采用了Mysql，并用Navicat for Mysql软件完成了设计。开发集成环境选用了wxmap。
+基于微信公众号的图书借阅系统，简称图书借阅伴侣，借助微信的平台整合图书馆和用户的资源,主要解决学校图书馆内的借阅流程和自习室预约功能。主要包含客户端用户，微信公众号平台、后台服务三部分构成。该软件主要功能模块包括：微信公众号、图书借阅与归还、预约、续借、自习室预约。
+项目职责：需求分析，Restfull接口定义以及代码编写，前后台代码编写，数据库设计
