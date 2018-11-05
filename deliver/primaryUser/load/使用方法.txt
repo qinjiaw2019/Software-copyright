@@ -1,0 +1,12 @@
+28种CSS3炫酷loading页面加载动画特效代码，兼容主流浏览器，懒人图库推荐下载！
+
+使用方法：
+1、在head区域引入样式表文件demo.css和loaders.css
+2、在你的网页中加入<!-- 代码 开始 --><!-- 代码 结束 -->注释区域代码即可
+3、末尾调用JS代码：<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelector('main').className += 'loaded';
+});
+</script>
+
+*更多代码请访问：懒人图库 www.lanrentuku.com/js/
