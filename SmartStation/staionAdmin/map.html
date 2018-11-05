@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>收货地址</title>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=0250860ccb5953fa5d655e8acf40ebb7&plugin=AMap.Geocoder"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <style>
+        #addressBox{height:20px;width:600px;}
+        #mapBox{height:400px;width:600px}
+        #pointBox{height:20px;width:600px;}
+    </style>
+<body>
+<div>
+    <input id="addressBox" type="text" value="请输入结构化地址，例如北京市朝阳区望京街道首开广场" />
+    <input id="" type="button" onclick="geocoder();" value="搜索" />
+</div>
+<div id='pointBox'>&nbsp;</div>
+<div id='mapBox'></div>
+<div>
+使用方法：<br />
+1.输入地址，点击搜索<br />
+2.如果不够准确，可以拖动地图改变经纬度
+</div>
+<script type="text/javascript">
+var $addressBox = document.getElementById('addressBox');
+var $pointBox = document.getElementById("pointBox");
+
+//创建地图
+var map = new AMap.Map("mapBox", {
+    resizeEnable: true,
+    center: [116.397428, 39.90923],
+    zoom:14
+});
+
+//添加标注
+function addMarker(point) {
+    var marker = new AMap.Marker({
+        map: map,
+        position: [ point.getLng(),  point.getLat()]
+    });
+}
+
+//地图中心点添加标注
+function addCenterPoint(){
+    map.clearMap();
+    var centerPoint = map.getCenter();
+    addMarker(centerPoint);
+    $pointBox.innerHTML = "当前经纬度为：" + centerPoint.getLng() + ',' + centerPoint.getLat();
+}
+addCenterPoint();
+
+function geocoder() {
+    map.clearMap();
+    var myGeo = new AMap.Geocoder();
+    //地理编码,返回地理编码结果
+    myGeo.getLocation($addressBox.value, function(status, result) {
+        if (status === 'complete' && result.info === 'OK') {
+            //地址解析成功
+            geocoder_CallBack(result);
+        }
+        else{
+            //地址解析失败
+            $pointBox.innerHTML = "查无此地址";
+        }
+    });
+}
+
+//地理编码返回结果展示
+function geocoder_CallBack(data) {
+    var resultStr = "";
+    var geocode = data.geocodes;
+    addMarker(geocode[0].location);
+    resultStr += "当前坐标</b>：" + geocode[0].location.getLng() + ", " + geocode[0].location.getLat();
+    map.setFitView();
+    $pointBox.innerHTML = resultStr;
+}
+
+map.on('moveend', function() {
+    addCenterPoint();
+});
+</script>
+</body>
+</html>
