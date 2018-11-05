@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.AdminInfoMapper">
+	
+	<!-- 
+	添加一条记录，主键相同会报异常
+	添加属性：所有属性(admin_id,admin_account,admin_pwd,create_time)
+	添加结果：结果集
+	 -->
+	<insert id = "insert" parameterType = "com.cloud.station.pojo.AdminInfo">
+	     INSERT INTO
+	         admin_info(admin_id,
+	                    admin_account,
+	                    admin_pwd,
+	                    create_time)
+	     VALUES(#{id},
+	            #{account},
+	            #{pwd},
+	            #{createTime})
+	</insert>
+	
+	<!-- 
+	根据主键删除一条记录
+	删除属性：所有属性(admin_id,admin_account,admin_pwd,create_time)
+	删除结果：结果集
+	 -->
+	<delete id = "deleteByPrimaryKey">
+	     DELETE
+	     FROM
+	          admin_info
+	     WHERE
+	          admin_id = #{id}
+	</delete>
+	
+	<!-- 
+	根据主键更新一条记录
+	更新属性：除了admin_id外的其他属性
+	       (admin_account,admin_pwd,create_time)
+	更新结果：结果集
+	 -->
+	<update id = "update" parameterType = "com.cloud.station.pojo.AdminInfo">
+	     UPDATE
+	         admin_info
+	     SET
+	         admin_account = #{account},
+	         admin_pwd = #{pwd},
+	         create_time = #{createTime}
+	     WHERE
+	         admin_id = #{id}                
+	</update>
+	
+	<!-- 
+	根据主键查询一条记录         
+	查询结果：所有属性(admin_id,admin_account,admin_pwd,create_time)
+	查询结果：结果集
+	 -->
+	<select id = "findByPrimaryKey" resultType = "com.cloud.station.pojo.AdminInfo">
+		SELECT
+	          admin_id id,
+	          admin_account account,
+	          admin_pwd pwd,
+	          create_time createTime
+	     FROM
+	         admin_info
+	     WHERE
+	         admin_id = #{id} 
+	</select>
+	
+	<!-- 
+	根据账号查询密码
+	查询属性：密码(depote_pwd)
+	查询结果：字符串 -->
+	<select id="findPasswordByAccount" parameterType="string" resultType="string">
+		SELECT 
+			admin_pwd pwd
+		FROM 
+			admin_info
+		WHERE 
+			admin_account = #{account} 
+	</select>
+	
+	<!-- 
+	根据账号查询对象         
+	查询属性：除密码外的其他属性
+	       (admin_id,admin_account,create_time)
+	查询结果：结果集
+	 -->
+	<select id = "findByName" resultType = "com.cloud.station.pojo.AdminInfo">
+	     SELECT
+	         admin_id id,
+	         admin_account account,
+	         create_time createTime
+	     FROM
+	         admin_info
+	     WHERE
+	         admin_account = #{account} 
+	</select>
+	
+</mapper>

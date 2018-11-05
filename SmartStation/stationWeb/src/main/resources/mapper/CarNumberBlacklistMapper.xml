@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.CarNumberBlacklistMapper">
+	
+	<!--添加一条记录-->
+	<insert id = "insert" parameterType="com.cloud.station.pojo.CarNumberBlacklist">
+	     INSERT INTO
+	         user_blacklist(id,
+	                   car_num,
+	                   user_id,
+	                   owe_amount,
+	                   owe_time,
+	                   dispose_time,
+	                   owe_money_time)
+	     VALUES(#{id},
+	            #{carNum},
+	            #{userId},
+	            #{oweAmount},
+	            #{oweTime},
+	            #{disposeTime},
+	            #{oweMoneyTime})
+	</insert>
+	
+	<!-- 根据主键更新一条记录-->
+	<update id = "update" parameterType="com.cloud.station.pojo.CarNumberBlacklist">
+	    UPDATE
+	    	user_blacklist
+	    SET
+	         user_id = #{userId},
+	         owe_amount = #{oweAmount},
+	         dispose_time = #{disposeTime},
+	         owe_money_time = #{oweMoneyTime}
+	    WHERE
+	         id = #{id}
+	</update>
+	
+	
+	
+	<!--根据主键删除一条记录-->
+	<delete id = "deleteByPrimaryKey">
+	     DELETE
+	     FROM
+	          user_blacklist
+	     WHERE
+	          id = #{id}
+	</delete>
+	
+	<!-- 根据主键查询一条记录    -->
+	<select id = "findByPrimaryKey" resultType = "com.cloud.station.pojo.CarNumberBlacklist">
+		SELECT
+			id,
+			car_num carNum,
+	        user_id  userId,
+	        owe_amount oweAmount,
+	        owe_time oweTime,
+	        dispose_time disposeTime,
+	        owe_money_time oweMoneyTime
+		FROM
+	    	user_blacklist
+	    WHERE
+	         id = #{0} 
+	</select>
+
+	<select id="find" parameterType="com.cloud.station.pojo.CarNumberBlacklist"
+			resultType = "com.cloud.station.pojo.CarNumberBlacklist">
+		SELECT
+			id,
+			car_num carNum,
+			user_id  userId,
+			owe_amount oweAmount,
+			owe_time oweTime,
+			dispose_time disposeTime,
+			owe_money_time oweMoneyTime
+		FROM
+			user_blacklist
+		<where>
+			<if test="id!=null">AND id=#{id}</if>
+			<if test="carNum!=null">AND car_num=#{carNum}</if>
+			<if test="userId!=null">AND user_id=#{userId}</if>
+		</where>
+	</select>
+
+	<select id="getByCarNumber"
+			resultType = "com.cloud.station.pojo.CarNumberBlacklist">
+		SELECT
+			id,
+			car_num carNum,
+			user_id  userId,
+			owe_amount oweAmount,
+			owe_time oweTime,
+			dispose_time disposeTime,
+			owe_money_time oweMoneyTime
+		FROM
+			user_blacklist
+		WHERE
+			car_num=#{arg0}
+		LIMIT
+			#{arg1},#{arg2}
+	</select>
+
+	<select id="countByFilterCarNum" resultType="long">
+		SELECT
+			count(*) total
+		FROM
+			user_blacklist
+		WHERE
+			car_num=#{carNum}
+	</select>
+</mapper>

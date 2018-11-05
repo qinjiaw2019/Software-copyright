@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/stationWeb.iml" filepath="$PROJECT_DIR$/.idea/modules/stationWeb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/stationWeb_main.iml" filepath="$PROJECT_DIR$/.idea/modules/stationWeb_main.iml" group="stationWeb" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/stationWeb_test.iml" filepath="$PROJECT_DIR$/.idea/modules/stationWeb_test.iml" group="stationWeb" />
+    </modules>
+  </component>
+</project>

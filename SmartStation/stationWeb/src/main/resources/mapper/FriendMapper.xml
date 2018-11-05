@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.FriendMapper">
+	
+	<!-- 
+	添加一条记录，主键相同会报异常
+	添加属性：所有属性(f_id,f_my_Id,f_frend_Id,f_relative,f_create_Time)
+	添加结果：结果集
+	 -->
+	<insert id = "insert" parameterType = "com.cloud.station.pojo.Friend">
+	     INSERT INTO
+	         friend(f_id,
+	                 f_my_Id,
+	                 f_frend_Id,
+	                 f_relative,
+	                 f_create_Time)
+	     VALUES(#{id},
+	            #{myId},
+	            #{frendId},
+	            #{relative},
+	            #{createTime})
+	</insert>
+	
+	<!-- 
+	根据主键删除一条记录
+	删除属性：所有属性(f_id,f_my_Id,f_frend_Id,f_relative,f_create_Time)
+	删除结果：结果集
+	 -->
+	<delete id = "deleteByPrimaryKey">
+	     DELETE
+	     FROM
+	          friend
+	     WHERE
+	          f_id = #{id}
+	</delete>
+
+	<!-- 
+	根据主键更新一条记录
+	更新属性：除了f_id外的其他属性
+	       (f_my_Id,f_frend_Id,f_relative,f_create_Time)
+	更新结果：结果集
+	 -->
+	<update id = "update" parameterType = "com.cloud.station.pojo.Friend">
+	     UPDATE
+	         friend
+	     SET
+	         f_relative = #{relative}
+	     WHERE
+	         f_id = #{id}                
+	</update>
+	
+	<!-- 
+	根据主键查询一条记录         
+	查询结果：所有属性(f_id,f_my_Id,f_frend_Id,f_relative,f_create_Time)
+	查询结果：结果集
+	 -->
+	<select id = "findByPrimaryKey" resultType = "com.cloud.station.pojo.Friend">
+	     SELECT
+	          f_id id,
+	          f_my_Id myId,
+	          f_frend_Id frendId,
+	          f_relative relative,
+	          f_create_Time createTime
+	     FROM
+	         friend
+	     WHERE
+	         f_id = #{id} 
+	</select>
+
+	<select id = "getFriendList" resultType = "com.cloud.station.pojo.ex.FriendEx">
+		SELECT
+			u.user_id id,
+			u.user_account account,
+			u.user_tel tel,
+			u.create_time createTime,
+			u.user_money money,
+			u.user_face face,
+			u.rank_points rankPoints,
+			u.user_idcard idCard,
+			u.reputation_points reputationPoints,
+			f.f_relative relative,
+			f.f_create_Time addTime
+		FROM
+			user_info u,friend f
+		<where>
+			f.f_frend_Id = u.user_id AND f.f_my_Id=#{myId}
+			<if test="relative!=null"> AND f.f_relative=#{relative}</if>
+			<if test="unrelative!=null"> AND f.f_relative!=#{unrelative}</if>
+		</where>
+		LIMIT
+			#{skip},#{limit}
+	</select>
+	<select id = "countByFilter" resultType = "long">
+		SELECT
+			count(*) total
+		FROM
+			user_info u,friend f
+		<where>
+			f.f_frend_Id = u.user_id AND f.f_my_Id=#{myId}
+			<if test="relative!=null"> AND f.f_relative=#{relative}</if>
+			<if test="unrelative!=null"> AND f.f_relative!=#{unrelative}</if>
+		</where>
+	</select>
+
+	<select id = "find" resultType = "com.cloud.station.pojo.Friend">
+		SELECT
+			f_id id,
+			f_my_Id myId,
+			f_frend_Id frendId,
+			f_relative relative,
+			f_create_Time createTime
+		FROM
+			friend
+		<where>
+			<if test="myId!=null">AND f_my_Id=#{myId}</if>
+			<if test="frendId!=null">AND f_frend_Id=#{frendId}</if>
+		</where>
+	</select>
+
+</mapper>

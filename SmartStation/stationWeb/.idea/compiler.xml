@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="com.cloud_main" target="1.8" />
+      <module name="com.cloud_test" target="1.8" />
+      <module name="stationWeb_main" target="1.8" />
+      <module name="stationWeb_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

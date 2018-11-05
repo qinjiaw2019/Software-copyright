@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.AddressMapper">
+	<!--使用Redis缓存-->
+	<!--<cache type="com.cloud.station.config.MybatisRedisCache"/>-->
+
+	<!--
+	根据省模糊查询
+	查询结果：所有属性(addr_id,addr_provice,addr_city,
+	        addr_country,addr_village,addr_desc,
+	        create_time,admin_depot_id)
+	查询结果：结果集
+	 -->
+	<select id = "findByMapAddress" resultType = "com.cloud.station.pojo.dto.MapAddressDTO">
+		SELECT
+			addr_id id,
+			addr_provice provice,
+			addr_city city,
+			addr_country country,
+			addr_village village,
+			addr_desc `desc`,
+			create_time createTime,
+			admin_depot_id adminDepotId
+		FROM
+			address
+
+		WHERE
+			addr_provice=#{provice} AND
+			addr_city=#{city}
+	</select>
+
+	<!--
+	添加一条记录，主键相同会报异常
+	添加属性：所有属性(addr_id,addr_provice,addr_city,
+	        addr_country,addr_village,addr_desc,
+	        create_time,admin_depot_id)
+	添加结果：结果集
+	 -->
+	<insert id = "insert">
+		INSERT INTO
+			address(addr_id,
+			addr_provice,
+			addr_city,
+			addr_country,
+			create_time)
+		VALUES(#{id},
+			#{provice},
+			#{city},
+			#{country},
+			#{createTime})
+	</insert>
+
+	<!--&lt;!&ndash;-->
+	<!--根据主键删除一条记录-->
+	<!--删除属性：所有属性(addr_id,addr_provice,addr_city,-->
+	        <!--addr_country,addr_village,addr_desc,-->
+	        <!--create_time,admin_depot_id)-->
+	<!--删除结果：结果集-->
+	 <!--&ndash;&gt;-->
+	<!--<delete id = "deleteByPrimaryKey">-->
+		<!--DELETE-->
+		<!--FROM-->
+			<!--address-->
+		<!--WHERE-->
+			<!--addr_id = #{id}-->
+	<!--</delete>-->
+
+	<!--&lt;!&ndash;-->
+	<!--根据主键批量删除-->
+	<!--删除属性：所有属性(addr_id,addr_provice,addr_city,-->
+	        <!--addr_country,addr_village,addr_desc,-->
+	        <!--create_time,admin_depot_id)-->
+	<!--删除结果：集合序列-->
+	 <!--&ndash;&gt;-->
+	<!--<delete id = "deleteByPrimaryKeys">-->
+		<!--DELETE-->
+		<!--FROM-->
+			<!--address-->
+		<!--WHERE-->
+			<!--id IN-->
+			<!--<foreach collection = "array" item = "item" index = "index" open = "(" separator = "," close = ")">-->
+				<!--#{item}-->
+			<!--</foreach>-->
+	<!--</delete>-->
+
+	<!--&lt;!&ndash;-->
+	<!--根据主键更新一条记录-->
+	<!--更新属性：除了addr_id外的其他属性-->
+	       <!--(addr_provice,addr_city,-->
+	        <!--addr_country,addr_village,addr_desc,-->
+	        <!--create_time,admin_depot_id)-->
+	<!--更新结果：结果集-->
+	 <!--&ndash;&gt;-->
+	<!--<update id = "update" parameterType = "com.cloud.station.pojo.Address">-->
+		<!--UPDATE-->
+			<!--address-->
+		<!--SET-->
+			<!--addr_provice = #{provice},-->
+			<!--addr_city = #{city},-->
+			<!--addr_country = #{country},-->
+			<!--addr_village = #{village},-->
+			<!--addr_desc = #{desc},-->
+			<!--create_time = #{createTime},-->
+			<!--admin_depot_id = #{adminDepotId}-->
+		<!--WHERE-->
+			<!--addr_id = #{id}-->
+	<!--</update>-->
+
+	<!--
+	根据主键查询一条记录
+	查询结果：所有属性(addr_id,addr_provice,addr_city,
+	        addr_country,addr_village,addr_desc,
+	        create_time,admin_depot_id)
+	查询结果：结果集
+	 -->
+	<select id = "findByPrimaryKey" resultType = "com.cloud.station.pojo.Address">
+		SELECT
+			addr_id id,
+			addr_provice provice,
+			addr_city city,
+			addr_country country,
+			addr_village village,
+			addr_desc `desc`,
+			create_time createTime,
+			admin_depot_id adminDepotId
+		FROM
+			address
+		WHERE
+			addr_id = #{id}
+	</select>
+
+
+
+	<!--
+	根据市模糊查询
+	查询结果：所有属性(addr_id,addr_provice,addr_city,
+	        addr_country,addr_village,addr_desc,
+	        create_time,admin_depot_id)
+	查询结果：结果集
+	 -->
+	<select id = "find" resultType = "com.cloud.station.pojo.Address">
+		SELECT
+			addr_id id,
+			addr_provice provice,
+			addr_city city,
+			addr_country country,
+			create_time createTime
+		FROM
+			address
+		<where>
+			<if test="id!=null">addr_id=#{id} AND</if>
+			<if test="provice!=null">addr_provice=#{provice} AND</if>
+			<if test="city!=null">addr_city=#{city} AND</if>
+			<if test="country!=null">addr_country=#{country}</if>
+		</where>
+	</select>
+
+	<!--&lt;!&ndash;-->
+	<!--根据区模糊查询-->
+	<!--查询结果：所有属性(addr_id,addr_provice,addr_city,-->
+	        <!--addr_country,addr_village,addr_desc,-->
+	        <!--create_time,admin_depot_id)-->
+	<!--查询结果：结果集-->
+	 <!--&ndash;&gt;-->
+	<!--<select id = "findByCountry" resultType = "com.cloud.station.pojo.Address">-->
+		<!--SELECT-->
+			<!--addr_id id,-->
+			<!--addr_provice provice,-->
+			<!--addr_city city,-->
+			<!--addr_country country,-->
+			<!--addr_village village,-->
+			<!--addr_desc desc,-->
+			<!--create_time createTime,-->
+			<!--admin_depot_id adminDepotId-->
+		<!--FROM-->
+			<!--address-->
+		<!--WHERE-->
+			<!--addr_country-->
+		<!--LIKE-->
+			<!--'%'+#{country}+'%'-->
+		<!--LIMIT-->
+			<!--#{1},#{2}-->
+	<!--</select>-->
+
+	<!--&lt;!&ndash;-->
+	<!--根据街道模糊查询-->
+	<!--查询结果：所有属性(addr_id,addr_provice,addr_city,-->
+	        <!--addr_country,addr_village,addr_desc,-->
+	        <!--create_time,admin_depot_id)-->
+	<!--查询结果：结果集-->
+	 <!--&ndash;&gt;-->
+	<!--<select id = "findByCountry" resultType = "com.cloud.station.pojo.Address">-->
+		<!--SELECT-->
+			<!--addr_id id,-->
+			<!--addr_provice provice,-->
+			<!--addr_city city,-->
+			<!--addr_country country,-->
+			<!--addr_village village,-->
+			<!--addr_desc desc,-->
+			<!--create_time createTime,-->
+			<!--admin_depot_id adminDepotId-->
+		<!--FROM-->
+			<!--address-->
+		<!--WHERE-->
+			<!--addr_village-->
+		<!--LIKE-->
+			<!--'%'+#{village}+'%'-->
+		<!--LIMIT-->
+			<!--#{1},#{2}-->
+	<!--</select>-->
+
+	<!--&lt;!&ndash;-->
+	<!--根据其他条件模糊查询-->
+	<!--查询结果：所有属性(addr_id,addr_provice,addr_city,-->
+	        <!--addr_country,addr_village,addr_desc,-->
+	        <!--create_time,admin_depot_id)-->
+	<!--查询结果：结果集-->
+	 <!--&ndash;&gt;-->
+	<!--<select id = "findByDesc" resultType = "com.cloud.station.pojo.Address">-->
+		<!--SELECT-->
+			<!--addr_id id,-->
+			<!--addr_provice provice,-->
+			<!--addr_city city,-->
+			<!--addr_country country,-->
+			<!--addr_village village,-->
+			<!--addr_desc desc,-->
+			<!--create_time createTime,-->
+			<!--admin_depot_id adminDepotId-->
+		<!--FROM-->
+			<!--address-->
+		<!--WHERE-->
+			<!--addr_desc-->
+		<!--LIKE-->
+			<!--'%'+#{desc}+'%'-->
+		<!--LIMIT-->
+			<!--#{1},#{2}-->
+	<!--</select>-->
+</mapper>

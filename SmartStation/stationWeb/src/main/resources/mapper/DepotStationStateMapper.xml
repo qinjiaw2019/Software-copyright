@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.DepotStationStateMapper">
+	<!--使用Redis缓存-->
+	<cache type="com.cloud.station.config.MybatisRedisCache"/>
+
+	<!-- 
+	添加一条记录，主键相同会报异常
+	添加属性：所有属性(station_id,station_code,station_loc,
+	        station_desc,create_time,depot_id)
+	添加结果：结果集
+	 -->
+	<insert id = "insert" parameterType = "com.cloud.station.pojo.DepotStationState">
+	     INSERT INTO
+	         depot_station_state(state_id,
+	                       station_id,
+	                       station_state,
+	                       start_time,
+	                       end_time,
+	                       user_id)
+	     VALUES(#{id},
+	            #{stationId},
+	            #{state},
+	            #{startTime},
+	            #{endTime},
+	            #{userId})
+	</insert>
+	
+	<!-- 
+	根据主键删除一条记录
+	删除属性：所有属性(station_id,station_code,station_loc,
+	        station_desc,create_time,depot_id)
+	删除结果：结果集
+	 -->
+	<delete id = "deleteByPrimaryKey">
+	     DELETE
+	     FROM
+	          depot_station_state
+	     WHERE
+	          state_id = #{id}
+	</delete>
+	
+	<!-- 
+	根据主键批量删除
+	删除属性：所有属性(station_id,station_code,station_loc,
+	        station_desc,create_time,depot_id)
+	删除结果：集合序列
+	 -->
+	<delete id = "deleteByPrimaryKeys">
+	     DELETE
+	     FROM
+	          depot_station_state
+	     WHERE
+	          id IN
+	            <foreach collection = "array" item = "item" index = "index" open = "(" separator = "," close = ")">
+	                #{item}
+	            </foreach>
+	</delete>
+	
+	<!-- 
+	根据主键更新一条记录
+	更新属性：除了station_id外的其他属性
+	       (station_code,station_loc,
+	        station_desc,create_time,depot_id)
+	更新结果：结果集
+	 -->
+	<update id = "update" parameterType = "com.cloud.station.pojo.DepotStationState">
+		 UPDATE
+	         depot_station_state
+	     SET
+	         station_id = #{stationId},
+	         station_state = #{state},
+	         start_time = #{startTime},
+	         end_time = #{endTime},
+	         user_id = #{userId}
+	     WHERE
+	         state_id = #{id}                
+	</update>
+	
+	<!-- 
+	根据主键查询一条记录         
+	查询结果：所有属性(station_id,station_code,station_loc,
+	        station_desc,create_time,depot_id)
+	查询结果：结果集
+	 -->
+	<select id = "findByPrimaryKey" resultType = "com.cloud.station.pojo.DepotStationState">
+	     SELECT
+	         state_id id,
+	         station_id stationId,
+	         station_state state,
+	         start_time startTime,
+	         end_time endTime,
+	         user_id userId
+	      FROM
+	         depot_station_state
+	      WHERE
+	         state_id = #{0}
+	</select>
+
+	<!--根据地址查询相关的停车场信息以及状态信息-->
+	<select id = "findByMapAddress" resultType = "com.cloud.station.pojo.DepotStationState">
+		SELECT
+		state_id id,
+		station_id stationId,
+		station_state state,
+		start_time startTime,
+		end_time endTime,
+		user_id userId
+		FROM
+		depot_station_state
+		WHERE
+		state_id = #{0}
+	</select>
+</mapper>

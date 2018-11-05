@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.CarNumberUsingMapper">
+	<insert id="insert" parameterType="com.cloud.station.pojo.CarNumberUsing">
+		INSERT INTO car_number_used(
+			id,
+			car_number_id,
+			start_time,
+			end_time,
+			user_id,
+			car_state)
+		VALUES(
+			#{id},
+			#{carNumberId},
+			#{starTime},
+			#{endTime},
+			#{userId},
+			#{state})
+	</insert>
+
+	<select id="findByPrimaryKey" resultType="com.cloud.station.pojo.CarNumberUsing">
+		SELECT
+			id id,
+			car_number_id carNumberId,
+			start_time starTime,
+			end_time endTime,
+			user_id userId,
+			car_state state
+		FROM
+			id=#{id}
+	</select>
+	<select id="getByCarNumberId" resultType="com.cloud.station.pojo.CarNumberUsing">
+		SELECT
+			id id,
+			car_number_id carNumberId,
+			start_time starTime,
+			end_time endTime,
+			user_id userId,
+			car_state state
+		FROM
+			car_number_using
+		WHERE
+			car_number_id=#{arg0} AND
+			car_state=#{arg1}
+	</select>
+
+	<update id="update" parameterType="com.cloud.station.pojo.CarNumberUsing">
+		UPDATE
+			car_number_using
+		SET
+			id = #{id},
+			car_number_id = #{carNumberId},
+			start_time = #{starTime},
+			end_time = #{endTime},
+			user_id = #{userId},
+			car_state = #{state}
+	</update>
+
+</mapper>

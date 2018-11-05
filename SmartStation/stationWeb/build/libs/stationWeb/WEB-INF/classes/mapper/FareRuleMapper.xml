@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.FareRuleMapper">
+	<insert id="insert" parameterType="com.cloud.station.pojo.FareRule">
+		INSERT INTO fare_rule(
+			id,
+			station_id,
+			create_time,
+			rule,
+			`mode`,
+			`desc`,
+			used,
+			user_id,
+			title
+		)VALUES(
+			#{id},
+			#{stationId},
+			#{createTime},
+			#{rule},
+			#{mode},
+			#{desc},
+			#{used},
+			#{userId},
+			#{title}
+		)
+	</insert>
+
+	<delete id = "deleteByPrimaryKey">
+		DELETE
+		FROM
+			fare_rule
+		WHERE
+			id = #{id}
+	</delete>
+
+	<update id="update" parameterType="com.cloud.station.pojo.FareRule">
+		UPDATE
+			fare_rule
+		SET
+			rule=#{rule},
+			`mode`=#{mode},
+			`desc`=#{desc},
+			used=#{used},
+			title=#{title}
+		WHERE
+			id=#{id}
+	</update>
+
+	<select id="findByPrimaryKey" resultType="com.cloud.station.pojo.FareRule">
+		SELECT
+			id,
+			station_id stationId,
+			create_time createTime,
+			rule rule,
+			`mode` mode,
+			`desc` `desc`,
+			used used,
+			user_id userId,
+			title title
+		FROM
+			fare_rule
+		WHERE
+			id=#{id}
+	</select>
+
+	<select id="getAll" resultType="com.cloud.station.pojo.FareRule">
+		SELECT
+			id,
+			station_id stationId,
+			create_time createTime,
+			rule rule,
+			`mode` mode,
+			`desc` `desc`,
+			used used,
+			user_id userId,
+			title title
+		FROM
+			fare_rule
+		WHERE
+			user_id=#{userId}
+	</select>
+
+	<select id="getUsedByStationId" resultType="com.cloud.station.pojo.FareRule">
+		SELECT
+			id,
+			station_id stationId,
+			create_time createTime,
+			rule rule,
+			`mode` mode,
+			`desc` `desc`,
+			used used,
+			user_id userId,
+			title title
+		FROM
+			fare_rule
+		WHERE
+			station_id=#{stationId} AND
+			used=1
+	</select>
+</mapper>

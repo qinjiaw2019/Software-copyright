@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.StationOrderMapper">
+	<insert id="insert" parameterType="com.cloud.station.pojo.StationOrder">
+		INSERT INTO station_order(
+			id,
+			station_id,
+			user_id,
+			create_time,
+			end_time,
+			car_num,
+			state
+		)VALUES(
+			#{id},
+			#{stationId},
+			#{userId},
+			#{createTime},
+			#{endTime},
+			#{carNum},
+			#{state}
+		)
+	</insert>
+	<delete id="delete">
+		DELETE FROM station_order WHERE id=#{id}
+	</delete>
+	<update id="update" parameterType="com.cloud.station.pojo.StationOrder">
+		UPDATE
+			station_order
+		SET
+			id=#{id},
+			station_id=#{stationId},
+			user_id=#{userId},
+			create_time=#{createTime},
+			end_time=#{endTime},
+			car_num=#{carNum},
+			state=#{state}
+		WHERE
+			id=#{id}
+	</update>
+	<select id="find" parameterType="com.cloud.station.pojo.StationOrder"
+			resultType="com.cloud.station.pojo.StationOrder">
+		SELECT
+			id id,
+			station_id stationId,
+			user_id userId,
+			create_time createTime,
+			end_time endTime,
+			car_num carNum,
+			state state
+		FROM
+			station_order
+		<where>
+			<if test="id!=null">AND id=#{id}</if>
+			<if test="stationId!=null">AND station_id=#{stationId}</if>
+			<if test="carNum!=null">AND car_num=#{carNum}</if>
+			<if test="userId!=null">AND user_id=#{userId}</if>
+			<if test="createTime!=null">AND create_time=#{createTime}</if>
+			<if test="endTime!=null">AND end_time=#{endTime}</if>
+			<if test="state!=null">AND state=#{state}</if>
+		</where>
+	</select>
+
+	<select id="findByStationIdAndCarNuber"
+			resultType="com.cloud.station.pojo.StationOrder">
+		SELECT
+			id id,
+			station_id stationId,
+			user_id userId,
+			create_time createTime,
+			end_time endTime,
+			car_num carNum,
+			state state
+		FROM
+			station_order
+
+		WHERE
+			station_id=#{arg0} AND
+			car_num=#{arg1} AND
+			user_id IS NULL AND
+			end_time=0
+	</select>
+
+	<select id="findByTime" parameterType="com.cloud.station.pojo.StationOrder"
+			resultType="com.cloud.station.pojo.StationOrder">
+		SELECT
+			id id,
+			station_id stationId,
+			user_id userId,
+			create_time createTime,
+			end_time endTime,
+			car_num carNum,
+			state state
+		FROM
+		station_order
+		<where>
+			<if test="order.id!=null">AND id=#{order.id}</if>
+			<if test="order.stationId!=null">AND station_id=#{order.stationId}</if>
+			<if test="order.carNum!=null">AND car_num=#{order.carNum}</if>
+			<if test="order.userId!=null">AND user_id=#{order.userId}</if>
+			<if test="order.state!=null">AND state=#{order.state}</if>
+			AND create_time BETWEEN #{start} and #{end}
+		</where>
+		LIMIT
+			#{skip},#{limit}
+	</select>
+
+	<select id="findUserByEntity" parameterType="com.cloud.station.pojo.StationOrder"
+			resultType="com.cloud.station.pojo.ex.StationOrderUser">
+		SELECT
+			u.user_id id,
+			u.user_account account,
+			so.create_time orderTime,
+			so.carNum,
+			so.state orderState
+		FROM
+			user_info u,station_order so
+		WHERE
+			u.user_id=so.id AND so.station_id=#{order.stationId}
+		LIMIT
+			#{skip},#{limit}
+
+	</select>
+
+	<select id="count"
+			resultType="long">
+		SELECT
+			count(*)
+		FROM
+			station_order
+	</select>
+
+</mapper>

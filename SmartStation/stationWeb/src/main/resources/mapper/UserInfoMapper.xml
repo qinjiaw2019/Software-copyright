@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.UserInfoMapper">
+	
+	<!-- 
+	添加一条记录，主键相同会报异常
+	添加属性：所有属性(user_id,user_account,user_tel,
+	              create_time,user_money,user_face,
+	              rank_points,user_idcard,reputation_points,
+	              user_pwd pwd)
+	添加结果：结果集
+	 -->
+	<insert id = "insert" >
+	     INSERT INTO
+	         user_info(user_id,
+	                   user_account,
+	                   user_tel,
+	                   create_time,
+	                   user_money,
+	                   user_face,
+	                   rank_points,
+	                   user_idcard,
+	                   reputation_points,
+	                   user_pwd)
+	     VALUES(#{id},
+	            #{account},
+	            #{tel},
+	            #{createTime},
+	            #{money},
+	            #{face},
+	            #{rankPoints},
+	            #{idCard},
+	            #{reputationPoints},
+	            #{pwd})
+	</insert>
+	
+	<!--
+	根据实体属性删除一条记录(即可根据user_id,user_account,user_idcard中的任何一个属性进行删除)
+	删除属性：所有属性(user_id,user_account,user_tel,
+	              create_time,user_money,user_face,
+	              rank_points,user_idcard,reputation_points,
+	              user_pwd pwd)
+	删除结果：结果集
+	 -->
+	<delete id = "delete">
+	     DELETE
+	     FROM
+	          user_info
+	     <where>
+	          <if test = "id != null">AND user_id = #{id}</if>
+	          <if test = "account != null">AND user_account = #{account}</if>
+	          <if test = "idCard != null">AND user_idcard =#{idCard}</if>
+	     </where>
+	</delete>
+	       
+	<!-- 
+	根据主键更新一条记录
+	更新属性：除了user_id外的其他属性
+	       (user_account,user_tel,
+	        create_time,user_money,user_face,
+	        rank_points,user_idcard,reputation_points,
+	        user_pwd pwd)
+	更新结果：结果集
+	 -->
+	<update id = "update" parameterType="com.cloud.station.pojo.UserInfo">
+	     UPDATE
+	         user_info
+	     SET 
+	         user_account = #{account},
+	         user_tel = #{tel},
+	         create_time = #{createTime},
+	         user_money = #{money},
+	         user_face = #{face},
+	         rank_points = #{rankPoints},
+	         user_idcard = #{idCard},
+			 user_pwd = #{pwd},
+	         reputation_points = #{reputationPoints},
+	         user_pwd = #{pwd} 
+	     WHERE
+	         user_id = #{id}                
+	</update>
+	
+	<!-- 
+	根据实体属性查询，可多条件查询
+	                （即可根据属性user_id,user_account,user_tel,create_time,user_idcard中的任何一个查询）
+	查询结果：除密码外的其他属性
+	       (user_id,user_account,user_tel,
+	        create_time,user_money,user_face,
+	        rank_points,user_idcard,reputation_points)
+	查询结果：结果集
+	 -->
+	<select id = "find" resultType = "com.cloud.station.pojo.UserInfo">
+	     SELETE
+	         user_id id,
+	         user_account account,
+	         user_tel tel,
+	         create_time createTime,
+	         user_money money,
+	         user_face face,
+	         rank_points rankPoints,
+	         user_idcard idCard,
+		     user_pwd pwd,
+	         reputation_points reputationPoints
+	     FROM
+	         user_info
+	     <where>
+	         <if test = "id != null">AND user_id = #{id}</if>
+	         <if test = "account != null">AND user_account = #{account}</if>
+	         <if test = "tel != null">AND user_tel = #{tel}</if>
+	         <if test = "idCard != null">AND user_idcard =#{idCard}</if>
+	     </where>     
+	</select>
+	
+	<!-- 
+	批量添加记录
+	添加结果：所有属性(user_id,user_account,user_tel,
+	              create_time,user_money,user_face,
+	              rank_points,user_idcard,reputation_points,
+	              user_pwd pwd)
+	添加结果：实体集合
+	 -->
+	<insert id = "insertList" >
+	     INSERT INTO
+	         user_info(user_id id,
+	                   user_account account,
+	                   user_tel tel,
+	                   create_time createTime,
+	                   user_money money,
+	                   user_face face,
+	                   rank_points rankPoints,
+	                   user_idcard idCard,
+	                   reputation_points reputationPoints,
+	                   user_pwd pwd)
+	    
+	     VALUES
+	         <foreach collection = "list" item = "item" index = "index" separator = ",">
+	              (#{item.id},#{item.account},#{item.tel},#{item.create_time},
+	               #{item.money},#{item.face},#{item.rankPoints},#{item.idCard},
+	               #{item.reputationPoints},#{item.pwd})
+	         </foreach>    
+	</insert>
+	
+	<!-- 
+	根据主键删除一条记录
+	删除属性：所有属性(user_id,user_account,user_tel,
+	              create_time,user_money,user_face,
+	              rank_points,user_idcard,reputation_points,
+	              user_pwd pwd)
+	删除结果：结果集
+	 -->
+	<delete id = "deleteByPrimaryKey">
+	     DELETE
+	     FROM
+	          user_info
+	     WHERE
+	          user_id = #{id}
+	</delete>
+	
+	<!-- 
+	根据主键批量删除
+	删除属性：所有属性(user_id,user_account,user_tel,
+	              create_time,user_money,user_face,
+	              rank_points,user_idcard,reputation_points,
+	              user_pwd pwd)
+	删除结果：集合序列
+	 -->
+	<delete id = "deleteByPrimaryKeys">
+	     DELETE
+	     FROM
+	          user_info
+	     WHERE
+	          id IN
+	            <foreach collection = "array" item = "item" index = "index" open = "(" separator = "," close = ")">
+	                #{item}
+	            </foreach>
+	</delete>
+	
+	<!-- 
+	根据主键查询一条记录         
+	查询结果：除密码外的其他属性
+	       (user_id,user_account,user_tel,
+	        create_time,user_money,user_face,
+	        rank_points,user_idcard,reputation_points)
+	查询结果：结果集
+	 -->
+	<select id = "findByPrimaryKey" resultType = "com.cloud.station.pojo.UserInfo">
+		SELECT
+	         user_id id,
+	         user_account account,
+	         user_tel tel,
+	         create_time createTime,
+	         user_money money,
+	         user_face face,
+	         rank_points rankPoints,
+	         user_idcard idCard,
+			 user_pwd pwd,
+	         reputation_points reputationPoints
+	     FROM
+	         user_info
+	     WHERE
+	         user_id = #{id} 
+	</select>
+
+	<select id = "findByPage" resultType = "com.cloud.station.pojo.UserInfo">
+		SELECT
+			user_id id,
+			user_account account,
+			user_tel tel,
+			create_time createTime,
+			user_money money,
+			user_face face,
+			rank_points rankPoints,
+			user_idcard idCard,
+			reputation_points reputationPoints
+		FROM
+			user_info
+		LIMIT
+			#{arg0},#{arg1}
+	</select>
+	<!-- 
+	根据名称模糊查询
+	查询结果：除密码外的其他属性
+	       (user_id,user_account,user_tel,
+	        create_time,user_money,user_face,
+	        rank_points,user_idcard,reputation_points)
+	查询结果：结果集
+	 -->
+	<select id = "findLikeByName" resultType = "com.cloud.station.pojo.UserInfo">
+	     SELETE
+	         user_id id,
+	         user_account account,
+	         user_tel tel,
+	         create_time createTime,
+	         user_money money,
+	         user_face face,
+	         rank_points rankPoints,
+	         user_idcard idCard,
+		     user_pwd pwd,
+	         reputation_points reputationPoints,
+	     FROM
+	         user_info
+	     WHERE
+	         tel
+	     LIKE   
+	         %${tel}%
+	</select>
+	
+	<!-- 
+	根据名称精确查询
+	查询结果：除密码外的其他属性
+	       (user_id,user_account,user_tel,
+	        create_time,user_money,user_face,
+	        rank_points,user_idcard,reputation_points)
+	查询结果：结果集
+	 -->
+	<select id = "findByName" resultType = "com.cloud.station.pojo.UserInfo">
+	     SELECT
+	         user_id id,
+	         user_account account,
+	         user_tel tel,
+	         create_time createTime,
+	         user_money money,
+	         user_face face,
+	         rank_points rankPoints,
+	         user_idcard idCard,
+	         reputation_points reputationPoints
+	     FROM
+	         user_info
+	     WHERE
+		user_account = #{account}
+	</select>
+	
+	<!-- 
+	根据账号查询密码
+	查询属性：密码(user_pwd)
+	查询结果：字符串 -->
+	<select id="findPasswordByAccount" parameterType="string" resultType="string">
+		SELECT 
+			user_pwd `pwd`
+		FROM 
+			user_info
+		WHERE 
+			user_account = #{account} 
+	</select>
+	
+	<!-- 
+	根据账号查询对象         
+	查询属性：除密码外的其他属性
+	       (user_id,user_account,user_tel,
+	        create_time,user_money,user_face,
+	        rank_points,user_idcard,reputation_points)
+	查询结果：结果集
+	 -->
+	<select id = "findByAccount" resultType = "com.cloud.station.pojo.UserInfo">
+	     SELECT
+	         user_id id,
+	         user_account account,
+	         user_tel tel,
+	         create_time createTime,
+	         user_money money,
+	         user_face face,
+	         rank_points rankPoints,
+	         user_idcard idCard,
+	         reputation_points reputationPoints
+	     FROM
+	         user_info
+	     WHERE
+	         user_account = #{account} 
+	</select>
+
+	<!--
+	统计总数
+	查询属性：无
+	查询结果：总记录数
+	 -->
+	<select id="count" resultType="long">
+		SELECT
+			count(*) total
+		FROM
+			user_info
+	</select>
+</mapper>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.CarInfoMapper">
+	<insert id="insert" parameterType="com.cloud.station.pojo.CarInfo">
+		INSERT INTO car_info(
+			id,
+			car_number,
+			current_used,
+			user_id,
+			car_number_type,
+			photo,
+			car_type,
+			car_xinhao,
+			car_year,
+			car_color,
+			car_code)
+		VALUES(
+			#{id},
+			#{carNumber},
+			#{currentUsed},
+			#{userId},
+			#{carNumberType},
+			#{photo},
+			#{carType},
+			#{carXH},
+			#{carYear},
+			#{carColor},
+			#{code})
+	</insert>
+
+	<update id="update" parameterType="com.cloud.station.pojo.CarInfo">
+		UPDATE
+			car_info
+		SET
+			id=#{id},
+			car_number=#{carNumber},
+			current_used=#{currentUsed},
+			user_id=#{userId},
+			car_number_type=#{carNumberType},
+			photo=#{photo},
+			car_type=#{carType},
+			car_xinhao=#{carXH},
+			car_year=#{carYear},
+			car_color=#{carColor},
+			car_code=#{code}
+		WHERE
+			id = #{id}
+	</update>
+
+	<select id="findByPrimaryKey" resultType="com.cloud.station.pojo.CarInfo">
+		SELECT
+			id id,
+			car_number carNumber,
+			current_used currentUsed,
+			user_id userId,
+			car_number_type carNumberType,
+			photo photo,
+			car_type carType,
+			car_xinhao carXH,
+			car_year carYear,
+			car_color carColor,
+			car_code code
+		FROM
+			car_info
+		WHERE
+			id=#{id}
+	</select>
+
+	<select id="getAll" resultType="com.cloud.station.pojo.CarInfo">
+		SELECT
+			c.id,
+			c.car_number,
+			c.current_used,
+			c.user_id,
+			c.car_number_type,
+			c.photo,
+			c.car_type,
+			c.car_xinhao,
+			c.car_year,
+			c.car_color,
+			c.car_code
+
+		FROM
+			car_info c
+		WHERE
+			c.user_id = #{userId} OR
+			c.id IN(
+				SELECT
+					cu.car_number_id
+				FROM
+					car_number_used cu
+				WHERE
+					cu.user_id = #{userId})
+	</select>
+
+
+	<select id="getUser" resultType="com.cloud.station.pojo.UserInfo">
+		SELECT
+			u.user_id id,
+			u.user_account account,
+			u.user_tel tel,
+			u.create_time createTime,
+			u.user_money money,
+			u.user_face face,
+			u.rank_points rankPoints,
+			u.user_idcard idCard,
+			u.reputation_points reputationPoints
+		FROM
+			car_info c,user_info u
+
+		<where>
+			<if test="currentUsed==null">
+				<if test="id!=null">AND c.id=#{id}</if>
+				<if test="carNumber!=null">AND c.car_number=#{carNumber}</if>
+				<if test="userId!=null">AND c.user_id=#{userId}</if>
+				AND c.user_id=u.user_id
+			</if>
+			<if test="currentUsed!=null">
+				AND u.user_id=#{currentUsed} AND c.current_used=#{currentUsed}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="getByCarNumber" resultType="com.cloud.station.pojo.CarInfo">
+		SELECT
+			c.id id,
+			c.car_number carNumber,
+			c.current_used currentUsed,
+			c.user_id userId,
+			c.car_number_type carNumberType,
+			c.photo photo,
+			c.car_type carType,
+			c.car_xinhao carXH,
+			c.car_year carYear,
+			c.car_color carColor,
+			c.car_code code
+		FROM
+			car_info c
+		WHERE
+			c.car_number=#{carNumber}
+	</select>
+
+	<select id="find" resultType="com.cloud.station.pojo.CarInfo">
+		SELECT
+			c.id id,
+			c.car_number carNumber,
+			c.current_used currentUsed,
+			c.user_id userId,
+			c.car_number_type carNumberType,
+			c.photo photo,
+			c.car_type carType,
+			c.car_xinhao carXH,
+			c.car_year carYear,
+			c.car_color carColor,
+			c.car_code code
+		FROM
+			car_info c
+		<where>
+			<if test="carInfo.id!=null">AND c.id=#{carInfo.id}</if>
+			<if test="carInfo.carNumber!=null">AND c.car_number=#{carInfo.carNumber}</if>
+			<if test="carInfo.currentUsed!=null">AND c.current_used=#{carInfo.currentUsed}</if>
+			<if test="carInfo.userId!=null">AND c.user_id=#{carInfo.userId}</if>
+			<if test="carInfo.userId!=null">AND c.car_number_type=#{carInfo.carNumberType}</if>
+			<if test="carInfo.carType!=null">AND c.car_type=#{carInfo.carType}</if>
+			<if test="carInfo.carXH!=null">AND c.car_xinhao=#{carInfo.carXH}</if>
+			<if test="carInfo.carYear!=null">AND c.car_year=#{carInfo.carYear}</if>
+			<if test="carInfo.carColor!=null">AND c.car_color=#{carInfo.carColor}</if>
+			<if test="carInfo.code!=null">AND c.car_code=#{carInfo.code}</if>
+		</where>
+		LIMIT
+			#{skip},#{limit}
+	</select>
+
+	<select id="count" resultType="long">
+		SELECT
+			count(*) total
+		FROM
+			car_info c
+		<where>
+			<if test="carInfo.id!=null and carInfo.id!=''">AND c.id=#{carInfo.id}</if>
+			<if test="carInfo.carNumber!=null and carInfo.carNumber!=''">AND c.car_number=#{carInfo.carNumber}</if>
+			<if test="carInfo.currentUsed!=null and carInfo.currentUsed!=''">AND c.current_used=#{carInfo.currentUsed}</if>
+			<if test="carInfo.userId!=null and carInfo.userId!=''">AND c.user_id=#{carInfo.userId}</if>
+			<if test="carInfo.userId!=null and carInfo.userId!=''">AND c.car_number_type=#{carInfo.carNumberType}</if>
+			<if test="carInfo.carType!=null and carInfo.carType!=''">AND c.car_type=#{carInfo.carType}</if>
+			<if test="carInfo.carXH!=null and carInfo.carXH!=''">AND c.car_xinhao=#{carInfo.carXH}</if>
+			<if test="carInfo.carYear!=null and carInfo.carYear!=''">AND c.car_year=#{carInfo.carYear}</if>
+			<if test="carInfo.carColor!=null and carInfo.carColor!=''">AND c.car_color=#{carInfo.carColor}</if>
+			<if test="carInfo.code!=null and carInfo.code!=''">AND c.car_code=#{carInfo.code}</if>
+		</where>
+	</select>
+</mapper>

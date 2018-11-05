@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.CarNumberUsedMapper">
+	<insert id="insert" parameterType="com.cloud.station.pojo.CarNumberUsed">
+		INSERT INTO car_number_used(
+			id,
+			car_number_id,
+			user_id,
+			start_time,
+			end_time,
+			car_state)
+		VALUES(
+			#{id},
+			#{carNumberId},
+			#{userId},
+			#{startTime},
+			#{endTime},
+			#{state})
+	</insert>
+
+	<select id="findByPrimaryKey" resultType="com.cloud.station.pojo.CarNumberUsed">
+		SELECT
+			id id,
+			car_number_id carNumberId,
+			user_id userId,
+			create_time createTime
+		FROM
+			id=#{id}
+	</select>
+</mapper>

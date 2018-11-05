@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.station.mapper.DepotInfoMapper">
+	<!--使用Redis缓存-->
+	<!--<cache type="com.cloud.station.config.MybatisRedisCache"/>-->
+	
+	<!--
+	添加一条记录，主键相同会报异常
+	添加属性：所有属性(depot_id,depot_name,address_id,
+	        user_id,create_time,depot_desc,
+	        station_num)
+	添加结果：结果集
+	 -->
+	<insert id = "insert" >
+	     INSERT INTO
+	         depot_info(depot_id,
+	                    depot_name,
+	                    address_id,
+	                    user_id,
+	                    create_time,
+	                    depot_desc,
+	                    station_num,
+						address,
+						latitude,
+						longitude,
+						photo)
+	     VALUES(#{id},
+	            #{name},
+	            #{addressId},
+	            #{userId},
+	            #{createTime},
+	            #{desc},
+	            #{stationNum},
+				#{address},
+				#{latitude},
+				#{longitude},
+				#{photo})
+	</insert>
+
+	<!--
+	根据主键删除一条记录
+	删除属性：所有属性(depot_id,depot_name,address_id,
+	        user_id,create_time,depot_desc,
+	        station_num)
+	删除结果：结果集
+	 -->
+	<delete id = "deleteByPrimaryKey">
+	     DELETE
+	     FROM
+	          depot_info
+	     WHERE
+	          depot_id = #{id}
+	</delete>
+
+	<!--
+	根据主键批量删除
+	删除属性：所有属性(depot_id,depot_name,address_id,
+	        user_id,create_time,depot_desc,
+	        station_num)
+	删除结果：集合序列
+	 -->
+	<delete id = "deleteByPrimaryKeys">
+	     DELETE
+	     FROM
+	          depot_info
+	     WHERE
+	          id IN
+	            <foreach collection = "array" item = "item" index = "index" open = "(" separator = "," close = ")">
+	                #{item}
+	            </foreach>
+	</delete>
+
+	<!--
+	根据主键更新一条记录
+	更新属性：除了depot_id外的其他属性
+	       (depot_name,address_id,
+	        user_id,create_time,depot_desc,
+	        station_num)
+	更新结果：结果集
+	 -->
+	<update id = "update" >
+	     UPDATE
+	         depot_info
+	     SET
+	         depot_name = #{name},
+	         address_id  = #{addressId},
+	         user_id = #{userId},
+	         create_time = #{createTime},
+	         depot_desc = #{desc},
+	         station_num = #{stationNum},
+			 photo = #{photo},
+		     latitude = #{latitude},
+			 longitude = #{longitude},
+			 address = #{address}
+	     WHERE
+	         depot_id = #{id}
+	</update>
+
+	<!--
+	根据主键查询一条记录
+	查询结果：所有属性(depot_id,depot_name,address_id,
+	        user_id,create_time,depot_desc,
+	        station_num)
+	查询结果：结果集
+	 -->
+	<select id = "findByPrimaryKey" resultType = "com.cloud.station.pojo.DepotInfo">
+	     SELECT
+	          depot_id id,
+	          depot_name `name`,
+	          address_id addressId,
+	          user_id userId,
+	          create_time createTime,
+	          depot_desc `desc`,
+	          station_num stationNum,
+			  latitude latitude,
+			  longitude longitude,
+		      photo photo,
+		      address address
+	     FROM
+	         depot_info
+	     WHERE
+	         depot_id = #{id}
+	</select>
+
+
+	<select id = "findByPage" resultType = "com.cloud.station.pojo.DepotInfo">
+		SELECT
+			depot_id id,
+			depot_name `name`,
+			address_id addressId,
+			user_id userId,
+			create_time createTime,
+			depot_desc `desc`,
+			address address,
+			station_num stationNum
+		FROM
+			depot_info
+		LIMIT
+			#{arg0},#{arg1}
+	</select>
+
+	<!--
+	根据实体属性查询，可多条件查询
+	                （即可根据属性depot_id,depot_name中的任何一个查询）
+	查询结果：所有属性(depot_id,depot_name,address_id,
+	        user_id,create_time,depot_desc,
+	        station_num)
+	查询结果：结果集
+	 -->
+	<select id = "find" resultType = "com.cloud.station.pojo.DepotInfo">
+	     SELECT
+	          depot_id id,
+	          depot_name `name`,
+	          address_id addressId,
+	          user_id userId,
+	          create_time createTime,
+	          depot_desc `desc`,
+	          station_num stationNum,
+		      latitude latitude,
+		      longitude longitude,
+			  photo photo,
+			  address address
+	     FROM
+	         depot_info
+	     <where>
+	         <if test = "id != null">AND depot_id = #{id}</if>
+	         <if test = "name != null">AND depot_name = #{name}</if>
+			 <if test = "latitude != null">AND latitude = #{latitude}</if>
+			 <if test = "latitude != null">AND longitude = #{longitude}</if>
+			 <if test = "userId != null">AND user_id = #{userId}</if>
+	     </where>
+	</select>
+
+	<!--
+	根据名称模糊查询
+	查询结果：所有属性(depot_id,depot_name,address_id,
+	        user_id,create_time,depot_desc,
+	        station_num)
+	查询结果：结果集
+	 -->
+	<select id = "findLikeByName" resultType = "com.cloud.station.pojo.DepotInfo">
+	     SELETE
+	          depot_id id,
+	          depot_name name,
+	          address_id addressId,
+	          user_id userId,
+	          create_time createTime,
+	          depot_desc desc,
+	          station_num stationNum,
+		      photo photo
+
+	     FROM
+	         depot_info
+	     WHERE
+	         name
+	     LIKE
+	         %${name}%
+	</select>
+
+	<select id = "findByName" resultType = "com.cloud.station.pojo.DepotInfo">
+		SELECT
+			depot_id id,
+			depot_name `name`,
+			address_id addressId,
+			user_id userId,
+			create_time createTime,
+			depot_desc `desc`,
+			station_num stationNum
+		FROM
+			depot_info
+		WHERE
+			depot_name = #{name}
+	</select>
+
+
+	<!--查询指定范围内的数据-->
+	<select id = "findByLatAndLon" resultType = "com.cloud.station.pojo.DepotInfo">
+		SELECT
+			depot_id id,
+			depot_name `name`,
+			address_id addressId,
+			user_id userId,
+			create_time createTime,
+			depot_desc `desc`,
+			station_num stationNum,
+			latitude latitude,
+			longitude longitude,
+			address address,
+			photo photo
+			,
+			ROUND(
+				6378.138 * 2 * ASIN(
+				SQRT(
+					POW(
+						SIN(
+								(
+								40.0497810000 * PI() / 180 - #{position.centerLat} * PI() / 180
+								) / 2
+							),
+							2
+						) + COS(40.0497810000 * PI() / 180) * COS(#{position.centerLat} * PI() / 180) * POW(
+							SIN(
+							(
+								116.3424590000 * PI() / 180 - #{position.centerLng} * PI() / 180
+								) / 2
+							),
+							2
+							)
+						)
+					) * 1000
+				) AS distance
+		FROM
+			depot_info
+		ORDER BY
+			station_num ASC
+		LIMIT #{skip},#{limit}
+
+
+	</select>
+
+	<select id="count" resultType="long">
+		SELECT count(*) total from depot_info
+	</select>
+</mapper>
