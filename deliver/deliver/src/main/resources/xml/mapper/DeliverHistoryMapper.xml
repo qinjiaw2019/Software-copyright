@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.middleware.mapper.DeliverHistoryMapper">
+
+	<!-- 查询用户的某种状态的快递-->
+	<select id="findByDeliverId"  resultType="com.middleware.pojo.DeliverHistory">
+		SELECT 
+			*
+		FROM deliver_history
+		WHERE 
+			deliver_id = #{0}
+	</select>
+	
+	<!-- 根据编号查询-->
+	<select id="findByCode"  resultType="com.middleware.pojo.DeliverEx">
+		SELECT 
+			d.id id,
+			d.user_id userId,
+			d.`name` `name`,
+			d.`code` `code`,
+			d.create_time createTime,
+			d.state state,
+			d.address_id addressId,
+			d.express_id expressId,
+			d.user_id  userId
+		FROM deliver d 
+		WHERE 
+			d.`code` = #{code}
+	</select>
+	
+	<!-- 查询用户的某种状态的快递-->
+	<select id="getByState"  resultType="com.middleware.pojo.Deliver">
+		SELECT 
+			d.id id,
+			d.user_id userId,
+			d.`name` `name`,
+			d.`code` `code`,
+			d.create_time createTime,
+			d.state state,
+			d.address_id addressId,
+			d.express_id expressId
+		FROM deliver d 
+		WHERE 
+			d.state = #{1}
+	</select>
+	
+	<!-- 根据id查询 -->
+	<select id="findById"  resultType="com.middleware.pojo.Deliver">
+		SELECT 
+			d.id id,
+			d.user_id userId,
+			d.`name` `name`,
+			d.`code` `code`,
+			d.create_time createTime,
+			d.state state,
+			d.address_id addressId,
+			d.express_id expressId
+		FROM deliver d 
+		WHERE 
+			d.id = #{id}
+	</select>
+	
+	
+	<!-- 插入一条记录信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.middleware.pojo.Deliver">
+		INSERT INTO 
+			deliver(user_id,`name`,`code`,create_time,state,address_id,express_id)
+		VALUES(#{userId},#{name},#{code},#{createTime},#{state},#{addressId},#{expressId})
+	</insert>
+	
+	<!-- 修改一条记录 -->
+	<update id="update" parameterType="com.middleware.pojo.Admin">
+		UPDATE
+			deliver d
+		SET
+			d.user_id = #{userId},
+			d.`name` = #{name},
+			d.`code` = #{code},
+			d.create_time = #{createTime},
+			d.state = #{state},
+			d.address_id =#{addressId},
+			d.express_id =#{expressId}
+		WHERE
+			d.id = #{id}
+	</update>
+</mapper>

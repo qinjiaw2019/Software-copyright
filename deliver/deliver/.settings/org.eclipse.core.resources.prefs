@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/middleware/config/Authority.java=UTF-8
+encoding//src/main/resources/properties/jdbc.properties=UTF-8
+encoding//src/main/resources/properties/log4j.properties=UTF-8
+encoding//src/main/webapp/index.jsp=UTF-8
+separateDerivedEncodings=true

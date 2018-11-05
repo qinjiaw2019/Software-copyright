@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.middleware.mapper.AdminUserMapper">
+
+	<!-- 根据id查询 -->
+	<select id="findByName"  resultType="com.middleware.pojo.AdminUser">
+		SELECT 
+			a.id id,
+			a.`username` `username`,
+			a.`password` `password`,
+			a.id_card idCard,
+			a.state state,
+			a.name name,
+			a.tell tell
+		FROM admin_user a
+			WHERE `username`=#{username}
+	</select>
+	
+	<!-- 2：根据id查询 -->
+	<select id="findById"  resultType="com.middleware.pojo.AdminUser">
+		SELECT 
+			a.id id,
+			a.`username` `username`,
+			a.`password` `password`,
+			a.id_card idCard,
+			a.state state,
+			a.name name,
+			a.tell tell
+		FROM admin_user a
+			WHERE id=#{id}
+	</select>
+	
+	<!-- 插入一条记录信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.middleware.pojo.AdminUser">
+		INSERT INTO 
+			admin_user(`username`,`password`,id_card,state,`name`,tell)
+		VALUES(#{username},#{password},#{idCard},#{state},#{name},#{tell})
+	</insert>
+	
+	<!-- 修改一条记录 -->
+	<update id="update" parameterType="com.middleware.pojo.AdminUser">
+		UPDATE
+			admin_user
+		SET
+			`password` = #{password},
+			 id_card = #{idCard},
+			 state = #{state},
+			 `name` = #{name},
+			 tell = #{tell}
+		WHERE
+			id = #{id}
+	</update>
+</mapper>

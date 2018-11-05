@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.middleware.mapper.AddressMapper">
+
+	<!-- 查询用户的所有地址 -->
+	<select id="getByPage"  resultType="com.middleware.pojo.Address">
+		SELECT 
+			*
+		FROM address 
+		WHERE 
+			user_id=#{0}
+		LIMIT
+			#{1},#{2}
+	</select>
+	
+	<!-- 修改一条记录 -->
+	<update id="update" parameterType="com.middleware.pojo.Address">
+		UPDATE
+			address
+		SET
+			info = #{info},
+			reciever = #{reciever},
+			tell = #{tell},
+			address = #{address},
+			zip_code = #{zip_code}
+		WHERE
+			user_id = #{userId} AND
+			id = #{id}
+	</update>
+	
+	<!-- 插入一条记录信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.middleware.pojo.Address">
+		INSERT INTO 
+			address(info,reciever,tell,address,user_id,zip_code)
+		VALUES(#{info},#{reciever},#{tell},#{address},#{user_id},#{zip_code})
+	</insert>
+	
+	<!-- 删除一条记录 -->
+	<delete id="delete" parameterType="com.middleware.pojo.Address">
+		DELETE FROM 
+			address 
+		WHERE 
+			id=#{id} AND 
+			user_id=#{user_id}
+	</delete>
+</mapper>

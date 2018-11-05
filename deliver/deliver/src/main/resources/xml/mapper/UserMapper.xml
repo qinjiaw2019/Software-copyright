@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.middleware.mapper.UserMapper">
+
+	<!-- 根据名称查询 -->
+	<select id="findUserByName"  resultType="com.middleware.pojo.User">
+		SELECT 
+			*
+		FROM user 
+			WHERE `username`=#{username}
+	</select>
+	
+	<!-- 2：根据id查询 -->
+	<select id="findById"  resultType="com.middleware.pojo.User">
+		SELECT 
+			*
+		FROM user 
+			WHERE id=#{id}
+	</select>
+	<!-- 插入一条记录信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.middleware.pojo.User">
+		INSERT INTO 
+			user(`username`,`password`,money,tell,integration,`name`)
+		VALUES(#{username},#{password},#{money},#{tell},#{integration},#{name})
+	</insert>
+	
+	<!-- 修改一条记录 -->
+	<update id="update" parameterType="com.middleware.pojo.User">
+		UPDATE
+			user
+		SET
+			`password` = #{password},
+			 money = #{money},
+			 tell = #{tell},
+			 `name` = #{name},
+			 integration = #{integration}
+		WHERE
+			id = #{id}
+	</update>
+</mapper>

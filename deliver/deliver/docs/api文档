@@ -1,0 +1,232 @@
+1.用户登陆
+url:user/login
+method:POST
+queryString:
+	username:用户名
+	password:密码
+	type:类型  0:普通用户登陆  1:管理员登陆 2:快递员登陆  
+	
+返回值：
+  -1:登陆失败
+  >0:登陆成功的用户ID号	
+  
+  
+2.获取用户信息
+url:user/info
+method:GET
+queryString:
+	uid:用户ID
+	type:类型  0:普通用户登陆  1:管理员登陆 2:快递员登陆  
+	
+返回值：
+  错误返回:-1
+  成功返回 :用户信息
+  
+3.普通用户注册
+url:user/reg
+method:POST
+queryString:
+	username:用户名
+	password:密码
+	tell:电话  
+	
+返回值：
+  错误返回:-1
+  成功返回 :>0
+  
+example:
+user/reg?username=uuu&password=fdfa&tell=123
+
+注：如果该用户存在则返回-2
+3.1 修改用户信息
+url:user/edit
+method:POST
+queryString:
+	User(必须包含id)
+	
+返回值：
+  错误返回:-1
+  成功返回 :1
+  
+example:
+user/edit?id=14&password=fffffffffff&tell=123
+
+4.快递员注册
+url:admin/user/reg
+method:POST
+queryString:
+	username:用户名
+	password:密码
+	id_card:生分证号码 
+	
+返回值：
+  错误返回:-1
+  成功返回 :>0
+  
+example:
+admin/user/reg?username=test&password=123&id_card=123
+
+4.1快递员信息修改
+url:admin/user/edit
+method:POST
+queryString:
+	AdminUser(必须包含id)
+	
+返回值：
+  错误返回:-1
+  成功返回 :1
+  
+example:
+admin/user/edit?id=4&password=aaa&idCard=123abc&state=1
+
+注：如果该用户存在则返回-2
+
+5.管理员注册
+url:admin/reg
+method:POST
+queryString:
+	username:用户名
+	password:密码
+	
+返回值：
+  错误返回:-1
+  成功返回 :>0
+  
+example:
+admin/reg?username=test&password=123&id_card=123
+
+注：如果该用户存在则返回-2
+
+5.1 管理员信息修改
+url:admin/edit
+method:POST
+queryString:
+	Admin类(必须包含id)
+返回值：
+  错误返回:-1
+  成功返回 :1
+  
+example:
+	admin/edit?id=2&password=abc
+
+6.查询用户的地址（收货或者揽货）
+url:address/lists
+method:GET
+queryString:
+	uid:用户ID
+	page:当前页  可选 默认1
+	limit:每页显示记录条数 可选 默认20
+返回值：
+ 	成功返回：List
+ 	失败返回：-1
+example:
+	address/lists?uid=1&page=1&limit=20 		
+	
+7.新增一条地址
+url:address/add
+method:POST
+queryString:
+	userId:用户ID
+	info:详细地址
+	reciever:收件人
+	tell:练习电话
+	address:所在地区
+返回值：
+ 	成功返回：1
+ 	失败返回：-1
+example:
+	address/add?info=襄阳&reciever=覃家旺&tell=23432&address=105号&userId=1	
+	
+8.修改一条地址
+url:address/add
+method:POST
+queryString:
+	userId:用户ID
+	info:详细地址
+	reciever:收件人
+	tell:练习电话
+	address:所在地区
+	id:地址ID
+返回值：
+ 	成功返回：1
+ 	失败返回：-1
+example:
+	address/edit?info=襄阳1&reciever=覃家旺2&tell=23432&address=104号&userId=1&id=3	
+	
+9.删除一条地址
+url:address/del
+method:POST
+queryString:
+	id:地址ID
+	user_id:用户ID
+返回值：
+ 	成功返回：1
+ 	失败返回：-1
+example:
+	address/del?id=5&user_id=2
+	
+10.获取所有的快递机构
+url:express/lists
+method:GET
+queryString:
+	page:当前页 可选 默认1
+	limit:每页查询条数 可选 默认20
+返回值：
+ 	成功返回：List
+ 	失败返回：-1
+example:
+	express/lists?page=2&limit=2
+	
+11.寄快递
+url:deliver/send
+method:POST
+queryString:
+	Deliver
+返回值：
+ 	成功返回：1
+ 	失败返回：-1
+example:
+	deliver/send?userId=1&name=小件&addressId=1&expressId=1	
+	
+12.查询用户的某种状态的快递
+url:deliver/lists
+method:GET
+queryString:
+	userId:用户ID
+	state:快递状态   (0:发 1:收 2:运输中 3:回退)
+返回值：
+ 	成功返回：List
+ 	失败返回：-1
+example:
+	deliver/lists?userId=1&state=0		
+13.查询某种状态的快递
+url:deliver/lists/state
+method:GET
+queryString:
+	state:快递状态   (0:发 1:收 2:运输中 3:回退)
+返回值：
+ 	成功返回：List
+ 	失败返回：-1
+example:
+	deliver/lists/state?state=0	
+	
+12.根据货物编号查询包裹详细信息
+url:deliver/code
+method:GET
+queryString:
+	code:货物编号
+返回值：
+ 	成功返回：货物详细信息
+ 	失败返回：-1
+example:
+	deliver/code?code=234234	
+13.查询某种状态的快递
+url:deliver/lists/state
+method:GET
+queryString:
+	state:快递状态   (0:发 1:收 2:运输中 3:回退)
+返回值：
+ 	成功返回：List
+ 	失败返回：-1
+example:
+	deliver/lists/state?state=0		
