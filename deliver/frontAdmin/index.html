@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+    <title>快递员小助手</title>
+
+    <!-- 引入自适应类库，不建议在main.js里引入 -->
+    <!-- <script src="//unpkg.com/vue-ydui/dist/ydui.flexible.js"></script> -->
+  </head>
+  <body>
+    <div id="app">
+  	   <div class="loading" style="position: absolute;left: 10%;top: 40%;">
+          <img src="loading.gif" alt="" style="position: absolute;left: 55%"><br>
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;正在连接服务器,请稍后...</span>
+        </div>
+	  </div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+
+<script>
+
+
+// 扩展API加载完毕后调用onPlusReady回调函数
+document.addEventListener( "plusready", onPlusReady, false );
+// 扩展API加载完毕，现在可以正常调用扩展API
+function onPlusReady() {
+    var e = document.getElementById("scan");
+    e.removeAttribute( "disabled" );
+}
+var scan = null;
+</script>
+
+<style>
+
+#app{
+  overflow-y:auto;
+}
+body{
+  background:#EFEFF4;
+}
+
+</style>
+
+<script type=text/javascript>document.addEventListener('plusready', function() {
+            var webview = plus.webview.currentWebview();
+            plus.key.addEventListener('backbutton', function() {
+                /*
+                    就是这里 这里判断的时候 我想监听到vue的属性
+                    比如现在是 /goods 页面 我想监听这里是否是/goods页面 
+                    如果是   那我就监听这个页面的一个组件 v-header(假设组件名)
+                    判断这个组件的一个属性 detailShow 是否为true 如果是  改为false 
+                    
+                */
+               if(scan!=null){
+                  scan.cancel();
+                  scan.close();
+                }
+                webview.canBack(function(e) {
+                    if(e.canBack) {
+                        webview.back();
+                    } else {
+                        webview.close(); //hide,quit
+                        //plus.runtime.quit();
+                    }
+                })
+            });
+        });</script>
